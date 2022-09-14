@@ -1,13 +1,12 @@
 import React from "react"
 import shortid from "shortid"
-import { FormStyled } from "./Form.styled"
+import { FormStyled,FormButton } from "./Form.styled"
 import { PropTypes } from "prop-types"
 import { Formik, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup'
-import { useDispatch,useSelector } from "react-redux";
-import { fetchAddContacts } from "redux/contacts-operations";
-import { getContacts } from "redux/selectors";
-// import { Notify } from "notiflix";
+import { Notify } from "notiflix";
+import { useContactsAddMutation, useGetContactsQuery} from "redux/createApi";
+
 
 const schema = yup.object().shape({
   name: yup.string()
@@ -34,15 +33,25 @@ let showId = shortid.generate()
 
 export const FormByFormik = () => {
 
-  const dispatch = useDispatch()
-  const { contacts } = useSelector(getContacts)
 
-  const handleSubmit = (payload, { resetForm }) => {
+  const [contactsAdd]=useContactsAddMutation()
+  const { data } = useGetContactsQuery()
+  const handleSubmit = async(payload, { resetForm }) => {
 
-        dispatch(fetchAddContacts(payload))
-        resetForm()
-        return contacts
-      
+      const findSameNumber=data?.find(contact=>contact.name.toLowerCase()===payload.name.toLowerCase())
+          if (findSameNumber) {
+            Notify.failure("this name already in list")
+            resetForm()
+            return false
+    } 
+      try {
+      const newContact = await contactsAdd(payload)
+      resetForm()
+      return newContact
+      } catch (error) {
+      console.log('error :>> ', error);
+      }
+
   }
   return (<Formik
     initialValues={INITIAL_STATE}
@@ -65,7 +74,7 @@ export const FormByFormik = () => {
         placeholder="enter number"
         />
       <ErrorMessage name="phone"/>
-        <button type="submit">add contact</button>
+        <FormButton type="submit">add contact</FormButton>
   </FormStyled>
 </Formik>)
 

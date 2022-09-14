@@ -27,9 +27,9 @@ ul,li{
   padding: 0;
 }
 button{
-  padding: 5px;
-  margin: 5px;
-  width: 70px;
+  padding: 10px;
+  margin: 10px;
+  width: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,12 +41,14 @@ button{
 }
 
  button:hover {
-   transform: scale(1.1);
+   transform: scale(1.15);
  }
  input{
-  margin: 5px;
+  margin: 10px;
+  padding: 5px;
   outline: none;
-  width: 66%;
+  border-radius: 10px;
+  width: 60%;
  }
  label{
   display: block;

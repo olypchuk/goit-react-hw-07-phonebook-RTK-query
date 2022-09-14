@@ -2,7 +2,7 @@
   "name": "goit-react-hw-07-phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://olypchuk.github.io/goit-react-hw-07-phonebook/",
+  "homepage": "https://olypchuk.github.io/goit-react-hw-07-phonebook-RTK-query/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.3",

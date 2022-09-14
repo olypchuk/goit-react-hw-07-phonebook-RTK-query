@@ -1,23 +1,33 @@
 import styled from "styled-components";
 import { PropTypes } from "prop-types";
-export const ContactsList = ({ data,onClick }) => {
+import { useDeleteContactMutation } from "redux/createApi";
+export const ContactsList = ({ data}) => {
+  const [deleteContact]=useDeleteContactMutation()
 
-  return <ul>
+  return <StyledUl>
     {data?.map(item => { 
       const { name, phone,id } = item;
         return <StyledContainer key={id} ><li>{name}<p>{phone}</p>
-       </li><button type="button" onClick={()=>onClick(id)}>delete</button></StyledContainer>
+       </li><button type="button" onClick={()=>deleteContact(id)}>delete</button></StyledContainer>
     })}
           
-  </ul>
+  </StyledUl>
 }
+const StyledUl = styled.ul`
+display:flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: center;
+padding: 0;
+
+`
 const StyledContainer=styled.div`
     display:flex;
     align-items: center;
     padding :10px ;
     flex-direction: column;
     text-align: center;
-    width: 400px;
+    width: 350px;
     height: 100%;
     margin: 10px;
     border: 20px;
@@ -33,5 +43,5 @@ ContactsList.propTypes = {
   name: PropTypes.string.isRequired,
   phone:PropTypes.string.isRequired
   })),
-  onClick:PropTypes.func.isRequired
+
     }

@@ -5,26 +5,22 @@ import { Filter } from "./Filter/Filter";
 import { FormByFormik } from "./Form/Form";
 import { useDispatch ,useSelector} from "react-redux";
 import { setFilter } from "redux/filterSlice";
-import { filterHandleChange, getContacts, filterContacts, sortedContactsFunction } from "redux/selectors";
-import { fetchDeleteContacts } from "redux/contacts-operations";
-import { fetchAllContacts } from "redux/contacts-operations";
+import { filterHandleChange, filterContacts, sortedContactsFunction } from "redux/selectors";
 
+import { useGetContactsQuery } from "redux/createApi";
 
 export function App() {
 
-  const filter = useSelector(filterContacts)
-  const {contacts} = useSelector(getContacts)
+  const filter  = useSelector(filterContacts)
   const dispatch = useDispatch()
-  
-useEffect(() => {
-dispatch(fetchAllContacts())
-}, [dispatch])
+  const { data, error, isLoading } = useGetContactsQuery()
 
-  const sortedContacts = sortedContactsFunction(contacts)
+
+  const sortedContacts = sortedContactsFunction(data)
   const filteredArray = filterHandleChange(sortedContacts, filter)
-
   const setFilterContacts = (e) => dispatch(setFilter(e.target.value))
-  const deleteContacts = id =>{dispatch(fetchDeleteContacts(id))}
+
+
   
      return (
       <StyledApp>
@@ -32,7 +28,8 @@ dispatch(fetchAllContacts())
                <FormByFormik/>
          <h2>Contacts</h2>
          <Filter onChange={setFilterContacts} value={filter} />
-         {contacts.length>0&&<ContactsList data={filteredArray} onClick={deleteContacts} /> }
+         {data?.length > 0 && <ContactsList data={filteredArray}   />}
+       
        
      
      </StyledApp>

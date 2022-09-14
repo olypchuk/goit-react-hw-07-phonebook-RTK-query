@@ -8,5 +8,7 @@ export const filterHandleChange = (arr, filter) => {
     return filteredArray
   }
 export const getContacts = ({ contacts }) => contacts.items
-export const filterContacts = ({ contacts }) => contacts.filter
-export  const sortedContactsFunction= (contacts) => [...contacts].sort((a, b) => a.name.localeCompare(b.name))
+export const filterContacts = ({ filter }) => filter
+export const sortedContactsFunction = (contacts) => {
+  if (contacts) { return [...contacts].sort((a, b) => a.name.localeCompare(b.name)) }
+}
