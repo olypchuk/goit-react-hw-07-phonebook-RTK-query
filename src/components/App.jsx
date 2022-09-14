@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import { StyledApp } from "./Container/Container.styled";
 import { ContactsList } from "./ContactsList/ContactsList";
 import { Filter } from "./Filter/Filter";
@@ -13,7 +13,7 @@ export function App() {
 
   const filter  = useSelector(filterContacts)
   const dispatch = useDispatch()
-  const { data, error, isLoading } = useGetContactsQuery()
+  const { data } = useGetContactsQuery()
 
 
   const sortedContacts = sortedContactsFunction(data)
